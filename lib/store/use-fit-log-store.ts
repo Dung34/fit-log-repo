@@ -146,6 +146,9 @@ export const useFitLogStore = create<FitLogState>()(
           exerciseId,
           weight: 0,
           reps: 0,
+          duration: exercise.category === "cardio" ? 0 : undefined,
+          distance: exercise.category === "cardio" ? 0 : undefined,
+          incline: exercise.category === "cardio" ? 0 : undefined,
           order: getNextOrder(get().sets, sessionId),
         };
 
@@ -188,6 +191,9 @@ export const useFitLogStore = create<FitLogState>()(
           exerciseId: source.exerciseId,
           weight: source.weight,
           reps: source.reps,
+          duration: source.duration,
+          distance: source.distance,
+          incline: source.incline,
           order: source.order + 1,
         };
 
@@ -222,6 +228,14 @@ export const useFitLogStore = create<FitLogState>()(
         calcVolumeFromSets(
           get().sets.filter((set) => set.sessionId === sessionId),
         ),
+
+      calcCardioStats: (sessionId) => {
+        const sessionSets = get().sets.filter((set) => set.sessionId === sessionId);
+        return {
+          duration: sessionSets.reduce((total, set) => total + (set.duration || 0), 0),
+          distance: sessionSets.reduce((total, set) => total + (set.distance || 0), 0),
+        };
+      },
     }),
     {
       name: "fitlog-storage",

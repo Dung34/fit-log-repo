@@ -67,6 +67,7 @@ export function getDominantCategory(
   const counts: Record<ExerciseCategory, number> = {
     gym: 0,
     calisthenics: 0,
+    cardio: 0,
   };
 
   for (const set of sessionSets) {

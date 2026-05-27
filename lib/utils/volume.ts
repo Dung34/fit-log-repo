@@ -4,6 +4,8 @@ export interface SessionStats {
   exerciseCount: number;
   setCount: number;
   totalVolume: number;
+  cardioDuration: number;
+  cardioDistance: number;
 }
 
 export function calcTotalVolume(sets: WorkoutSet[]): number {
@@ -21,6 +23,14 @@ export function calcSessionStats(
     exerciseCount: exerciseIds.size,
     setCount: sessionSets.length,
     totalVolume: calcTotalVolume(sessionSets),
+    cardioDuration: sessionSets.reduce(
+      (total, set) => total + (set.duration || 0),
+      0,
+    ),
+    cardioDistance: sessionSets.reduce(
+      (total, set) => total + (set.distance || 0),
+      0,
+    ),
   };
 }
 

@@ -89,6 +89,12 @@ export function ExerciseFormSheet({
             >
               Calisthenics
             </SegmentedButton>
+            <SegmentedButton
+              active={category === "cardio"}
+              onClick={() => setCategory("cardio")}
+            >
+              Cardio
+            </SegmentedButton>
           </Segmented>
         </div>
         <Button large onClick={handleSubmit}>

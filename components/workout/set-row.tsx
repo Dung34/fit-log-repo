@@ -49,6 +49,21 @@ export function SetRow({ set }: SetRowProps) {
     (reps) => updateSet(set.id, { reps: Math.max(0, Math.round(reps)) }),
   );
 
+  const [durationText, setDurationText] = useDebouncedNumber(
+    set.duration ?? 0,
+    (duration) => updateSet(set.id, { duration: Math.max(0, duration) }),
+  );
+
+  const [distanceText, setDistanceText] = useDebouncedNumber(
+    set.distance ?? 0,
+    (distance) => updateSet(set.id, { distance: Math.max(0, distance) }),
+  );
+
+  const [inclineText, setInclineText] = useDebouncedNumber(
+    set.incline ?? 0,
+    (incline) => updateSet(set.id, { incline: Math.max(0, incline) }),
+  );
+
   return (
     <FitCard className="!p-3">
       <div className="mb-2 flex items-center justify-between gap-2">
@@ -70,24 +85,53 @@ export function SetRow({ set }: SetRowProps) {
           </button>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-2">
-        <ListInput
-          label="Tạ (kg)"
-          type="text"
-          inputMode="decimal"
-          placeholder="0"
-          value={weightText}
-          onInput={(event) => setWeightText(event.target.value)}
-        />
-        <ListInput
-          label="Reps"
-          type="text"
-          inputMode="numeric"
-          placeholder="0"
-          value={repsText}
-          onInput={(event) => setRepsText(event.target.value)}
-        />
-      </div>
+      {exercise?.category === "cardio" ? (
+        <div className="grid grid-cols-3 gap-2">
+          <ListInput
+            label="Phút"
+            type="text"
+            inputMode="numeric"
+            placeholder="0"
+            value={durationText}
+            onInput={(event) => setDurationText(event.target.value)}
+          />
+          <ListInput
+            label="Km"
+            type="text"
+            inputMode="decimal"
+            placeholder="0"
+            value={distanceText}
+            onInput={(event) => setDistanceText(event.target.value)}
+          />
+          <ListInput
+            label="Độ dốc"
+            type="text"
+            inputMode="decimal"
+            placeholder="0"
+            value={inclineText}
+            onInput={(event) => setInclineText(event.target.value)}
+          />
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 gap-2">
+          <ListInput
+            label="Tạ (kg)"
+            type="text"
+            inputMode="decimal"
+            placeholder="0"
+            value={weightText}
+            onInput={(event) => setWeightText(event.target.value)}
+          />
+          <ListInput
+            label="Reps"
+            type="text"
+            inputMode="numeric"
+            placeholder="0"
+            value={repsText}
+            onInput={(event) => setRepsText(event.target.value)}
+          />
+        </div>
+      )}
     </FitCard>
   );
 }

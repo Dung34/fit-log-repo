@@ -110,6 +110,12 @@ export function ExercisePickerSheet({
             >
               Cali
             </SegmentedButton>
+            <SegmentedButton
+              active={filter === "cardio"}
+              onClick={() => setFilter("cardio")}
+            >
+              Cardio
+            </SegmentedButton>
           </Segmented>
         </Block>
         <Block className="px-4">
@@ -133,7 +139,13 @@ export function ExercisePickerSheet({
                 <motion.div key={exercise.id} variants={listItemVariants}>
                   <ListItem
                     title={exercise.name}
-                    subtitle={exercise.category === "gym" ? "Gym" : "Calisthenics"}
+                    subtitle={
+                      exercise.category === "gym"
+                        ? "Gym"
+                        : exercise.category === "calisthenics"
+                        ? "Calisthenics"
+                        : "Cardio"
+                    }
                     link
                     onClick={() => handleSelect(exercise.id)}
                   />

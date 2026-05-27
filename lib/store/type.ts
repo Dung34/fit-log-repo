@@ -1,6 +1,6 @@
 import type { SessionWithStats } from "@/lib/utils/volume";
 
-type ExerciseCategory = "gym" | "calisthenics";
+type ExerciseCategory = "gym" | "calisthenics" | "cardio";
 
 interface Exercise {
   id: string;
@@ -24,6 +24,9 @@ interface WorkoutSet {
   weight: number;
   reps: number;
   order: number;
+  duration?: number;
+  distance?: number;
+  incline?: number;
 }
 
 interface FitLogState {
@@ -41,7 +44,12 @@ interface FitLogState {
   addSet: (sessionId: string, exerciseId: string) => WorkoutSet;
   updateSet: (
     setId: string,
-    data: Partial<Pick<WorkoutSet, "weight" | "reps">>,
+    data: Partial<
+      Pick<
+        WorkoutSet,
+        "weight" | "reps" | "duration" | "distance" | "incline"
+      >
+    >,
   ) => void;
   deleteSet: (setId: string) => void;
   duplicateSet: (setId: string) => WorkoutSet;
@@ -51,6 +59,7 @@ interface FitLogState {
   getSetsBySession: (sessionId: string) => WorkoutSet[];
   getSessionsWithStats: () => SessionWithStats[];
   calcTotalVolume: (sessionId: string) => number;
+  calcCardioStats: (sessionId: string) => { duration: number; distance: number };
 }
 
 export type {

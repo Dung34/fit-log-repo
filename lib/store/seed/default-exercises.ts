@@ -23,6 +23,14 @@ const CALISTHENICS_EXERCISES = [
   "Plank",
 ] as const;
 
+const CARDIO_EXERCISES = [
+  "Chạy bộ",
+  "Đạp xe",
+  "Đi bộ dốc",
+  "Nhảy dây",
+  "Máy chèo thuyền",
+] as const;
+
 function createExercise(
   name: string,
   category: ExerciseCategory,
@@ -41,5 +49,6 @@ export function createDefaultExercises(): Exercise[] {
     ...CALISTHENICS_EXERCISES.map((name) =>
       createExercise(name, "calisthenics"),
     ),
+    ...CARDIO_EXERCISES.map((name) => createExercise(name, "cardio")),
   ];
 }

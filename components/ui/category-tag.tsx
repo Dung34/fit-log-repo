@@ -15,6 +15,11 @@ const TAG_STYLES: Record<
     bg: "bg-fit-accent-green/20",
     text: "text-fit-accent-green",
   },
+  cardio: {
+    label: "Cardio",
+    bg: "bg-fit-accent-orange/20",
+    text: "text-fit-accent-orange",
+  },
 };
 
 interface CategoryTagProps {

@@ -14,6 +14,7 @@ import type { Exercise, ExerciseCategory } from "@/lib/store/type";
 const CATEGORY_LABELS: Record<ExerciseCategory, string> = {
   gym: "Gym",
   calisthenics: "Calisthenics",
+  cardio: "Cardio",
 };
 
 const containerVariants = {
@@ -40,7 +41,7 @@ const itemVariants = {
 } as const;
 
 function groupByCategory(exercises: Exercise[]) {
-  return (["gym", "calisthenics"] as const).map((category) => ({
+  return (["gym", "calisthenics", "cardio"] as const).map((category) => ({
     category,
     label: CATEGORY_LABELS[category],
     items: exercises.filter((exercise) => exercise.category === category),

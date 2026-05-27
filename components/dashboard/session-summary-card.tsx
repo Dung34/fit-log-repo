@@ -48,9 +48,26 @@ export function SessionSummaryCard({
           {category && <CategoryTag category={category} />}
         </div>
         <p className="fit-caption mt-0.5">
-          {stats.exerciseCount} bài · {stats.setCount} set ·{" "}
-          {stats.totalVolume.toLocaleString("vi-VN")} kg
+          {stats.exerciseCount} bài · {stats.setCount} set
         </p>
+        <div className="mt-2 flex items-center gap-2">
+          <div className="rounded-xl bg-fit-bg-muted px-3 py-2 border border-black/5">
+            <p className="fit-caption text-black/60">Volume</p>
+            <p className="font-semibold text-fit-text">
+              {stats.totalVolume > 0 ? `${stats.totalVolume.toLocaleString("vi-VN")} kg` : "-"}
+            </p>
+          </div>
+          <div className="rounded-xl bg-fit-bg-muted px-3 py-2 border border-black/5">
+            <p className="fit-caption text-black/60">Cardio</p>
+            <p className="font-semibold text-fit-text">
+              {stats.cardioDuration > 0
+                ? `${stats.cardioDuration.toLocaleString("vi-VN")}p`
+                : stats.cardioDistance > 0
+                ? `${stats.cardioDistance.toLocaleString("vi-VN")}km`
+                : "-"}
+            </p>
+          </div>
+        </div>
       </div>
     </FitCard>
   );

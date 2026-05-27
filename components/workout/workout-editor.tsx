@@ -22,6 +22,7 @@ export function WorkoutEditor({ date }: WorkoutEditorProps) {
   const getOrCreateSession = useFitLogStore((state) => state.getOrCreateSession);
   const getSetsBySession = useFitLogStore((state) => state.getSetsBySession);
   const calcTotalVolume = useFitLogStore((state) => state.calcTotalVolume);
+  const calcCardioStats = useFitLogStore((state) => state.calcCardioStats);
   const allSets = useFitLogStore((state) => state.sets);
 
   const [pickerOpen, setPickerOpen] = useState(false);
@@ -41,6 +42,7 @@ export function WorkoutEditor({ date }: WorkoutEditorProps) {
   }, [getSetsBySession, sessionId, allSets]);
 
   const totalVolume = sessionId ? calcTotalVolume(sessionId) : 0;
+  const cardioStats = sessionId ? calcCardioStats(sessionId) : { duration: 0, distance: 0 };
   const exerciseIds = new Set(sets.map((set) => set.exerciseId));
 
   if (!hydrated) {
@@ -103,13 +105,43 @@ export function WorkoutEditor({ date }: WorkoutEditorProps) {
       </section>
 
       <GlassPanel className="relative z-20 -mt-6 flex min-h-[52vh] flex-1 flex-col px-4 pb-6 pt-5">
-        <div className="mb-4 flex items-center gap-3">
-          <div className="min-w-0 flex-1 rounded-2xl bg-fit-accent-green/10 border border-fit-accent-green/20 px-4 py-3">
-            <p className="fit-caption !text-fit-accent-green/80 font-medium">Volume</p>
-            <p className="text-2xl font-bold text-fit-accent-green font-mono-numbers">
-              {totalVolume.toLocaleString("vi-VN")}{" "}
-              <span className="text-sm font-normal text-fit-accent-green/75">kg</span>
-            </p>
+        <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="flex gap-3 min-w-0 flex-1 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {totalVolume > 0 && (
+              <div className="min-w-fit rounded-2xl bg-fit-accent-green/10 border border-fit-accent-green/20 px-4 py-3 shrink-0">
+                <p className="fit-caption !text-fit-accent-green/80 font-medium">Volume (Tạ)</p>
+                <p className="text-2xl font-bold text-fit-accent-green font-mono-numbers">
+                  {totalVolume.toLocaleString("vi-VN")}{" "}
+                  <span className="text-sm font-normal text-fit-accent-green/75">kg</span>
+                </p>
+              </div>
+            )}
+            {cardioStats.duration > 0 && (
+              <div className="min-w-fit rounded-2xl bg-fit-accent-orange/10 border border-fit-accent-orange/20 px-4 py-3 shrink-0">
+                <p className="fit-caption !text-fit-accent-orange/80 font-medium">Cardio (Phút)</p>
+                <p className="text-2xl font-bold text-fit-accent-orange font-mono-numbers">
+                  {cardioStats.duration.toLocaleString("vi-VN")}{" "}
+                  <span className="text-sm font-normal text-fit-accent-orange/75">phút</span>
+                </p>
+              </div>
+            )}
+            {cardioStats.distance > 0 && (
+              <div className="min-w-fit rounded-2xl bg-fit-accent-blue/10 border border-fit-accent-blue/20 px-4 py-3 shrink-0">
+                <p className="fit-caption !text-fit-accent-blue/80 font-medium">Cardio (Km)</p>
+                <p className="text-2xl font-bold text-fit-accent-blue font-mono-numbers">
+                  {cardioStats.distance.toLocaleString("vi-VN")}{" "}
+                  <span className="text-sm font-normal text-fit-accent-blue/75">km</span>
+                </p>
+              </div>
+            )}
+            {totalVolume === 0 && cardioStats.duration === 0 && cardioStats.distance === 0 && (
+              <div className="min-w-fit rounded-2xl bg-fit-bg-muted/50 border border-black/5 px-4 py-3 shrink-0 flex-1">
+                <p className="fit-caption text-black/50">Volume</p>
+                <p className="text-2xl font-bold text-black/30 font-mono-numbers">
+                  0 <span className="text-sm font-normal">kg</span>
+                </p>
+              </div>
+            )}
           </div>
           {sessionId && (
             <motion.button
