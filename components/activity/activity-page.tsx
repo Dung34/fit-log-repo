@@ -85,7 +85,7 @@ export function ActivityPage() {
                 className={cn(
                   "shrink-0 rounded-[var(--fit-radius-pill)] px-4 py-2 text-sm font-medium transition",
                   active
-                    ? "bg-fit-card-dark text-white"
+                    ? "bg-fit-accent-green text-white"
                     : "bg-fit-bg text-fit-text shadow-[var(--fit-shadow-card)]",
                 )}
               >
@@ -118,7 +118,7 @@ export function ActivityPage() {
         </FitCard>
         <FitCard>
           <p className="fit-caption">Buổi tuần này</p>
-          <p className="mt-1 text-2xl font-semibold text-fit-accent-purple">
+          <p className="mt-1 text-2xl font-semibold text-fit-accent-blue">
             {sessionsThisWeek}
           </p>
         </FitCard>
@@ -126,8 +126,23 @@ export function ActivityPage() {
 
       <FitCard className="mb-6 flex items-center justify-between gap-3 !py-3">
         <div className="flex items-center gap-2">
-          <span className="text-xl" aria-hidden>
-            👑
+          <span
+            className="flex items-center justify-center"
+            aria-hidden
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M4 7l4 4 4-8 4 8 4-4v13H4V7Z" />
+              <path d="M4 20h16" />
+            </svg>
           </span>
           <p className="fit-body font-medium">
             Đã hoàn thành {sessionsThisWeek} buổi tuần này
@@ -165,7 +180,9 @@ export function ActivityPage() {
                   <div
                     className={cn(
                       "w-full max-w-[2rem] rounded-t-lg transition-all",
-                      day.isToday ? "bg-fit-accent-green" : "bg-fit-accent-purple/70",
+                      day.isToday
+                        ? "bg-fit-accent-green"
+                        : "bg-fit-accent-blue/70",
                     )}
                     style={{ height: `${height}%` }}
                     title={`${day.volume} kg`}

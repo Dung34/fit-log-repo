@@ -10,6 +10,7 @@ export function useStoreHydrated(): boolean {
     const persistApi = useFitLogStore.persist;
 
     if (!persistApi) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setHydrated(true);
       return;
     }

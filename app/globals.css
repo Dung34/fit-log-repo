@@ -11,8 +11,10 @@
   --fit-text-muted: #888888;
   --fit-card-dark: #2c2c2e;
   --fit-accent-green: #7eeb7b;
-  --fit-accent-purple: #a890fe;
-  --fit-accent-yellow: #ffd166;
+  --fit-accent-blue: #3b82f6;
+  /* Backward-compat: dùng lại tên biến cũ để không phá các class đã có */
+  --fit-accent-purple: var(--fit-accent-blue);
+  --fit-accent-yellow: var(--fit-accent-green);
   --fit-radius-card: 20px;
   --fit-radius-pill: 9999px;
   --fit-shadow-card: 0 4px 24px rgb(0 0 0 / 0.06);
@@ -27,6 +29,7 @@
   --color-fit-text-muted: var(--fit-text-muted);
   --color-fit-card-dark: var(--fit-card-dark);
   --color-fit-accent-green: var(--fit-accent-green);
+  --color-fit-accent-blue: var(--fit-accent-blue);
   --color-fit-accent-purple: var(--fit-accent-purple);
   --color-fit-accent-yellow: var(--fit-accent-yellow);
   --font-sans: var(--font-fit);

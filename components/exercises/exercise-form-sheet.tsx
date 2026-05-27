@@ -9,7 +9,7 @@ import {
   SegmentedButton,
   Sheet,
 } from "konsta/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFitLogStore } from "@/lib/store/use-fit-log-store";
 import type { Exercise, ExerciseCategory } from "@/lib/store/type";
 
@@ -30,18 +30,11 @@ export function ExerciseFormSheet({
   const updateExercise = useFitLogStore((state) => state.updateExercise);
 
   const isEdit = Boolean(exercise);
-  const [name, setName] = useState("");
-  const [category, setCategory] = useState<ExerciseCategory>("gym");
+  const [name, setName] = useState(() => exercise?.name ?? "");
+  const [category, setCategory] = useState<ExerciseCategory>(() => exercise?.category ?? "gym");
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!opened) {
-      return;
-    }
-    setName(exercise?.name ?? "");
-    setCategory(exercise?.category ?? "gym");
-    setError(null);
-  }, [opened, exercise]);
+  const sheetKey = `${opened ? "open" : "closed"}-${exercise?.id ?? "new"}`;
 
   const handleSubmit = () => {
     try {
@@ -66,7 +59,7 @@ export function ExerciseFormSheet({
   };
 
   return (
-    <Sheet opened={opened} onBackdropClick={handleClose}>
+    <Sheet key={sheetKey} opened={opened} onBackdropClick={handleClose}>
       <BlockTitle className="px-4 pt-4">
         {isEdit ? "Sửa bài tập" : "Thêm bài tập"}
       </BlockTitle>

@@ -68,7 +68,7 @@ export function ProgressHeroCard() {
       </div>
       <FitButton
         fullWidth
-        className="mt-4 bg-white text-fit-card-dark hover:bg-white/90"
+        className="mt-4 bg-white text-black hover:bg-white/90"
         onClick={() => router.push(`/workout/${today}`)}
       >
         {ctaLabel}

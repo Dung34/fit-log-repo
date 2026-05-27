@@ -19,10 +19,6 @@ function useDebouncedNumber(
   const [local, setLocal] = useState(String(value));
 
   useEffect(() => {
-    setLocal(String(value));
-  }, [value]);
-
-  useEffect(() => {
     const timer = window.setTimeout(() => {
       const parsed = Number(local);
       const next = Number.isFinite(parsed) ? parsed : 0;

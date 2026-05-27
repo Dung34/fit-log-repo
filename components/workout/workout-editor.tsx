@@ -1,8 +1,8 @@
 "use client";
 
-import { ListInput, Preloader } from "konsta/react";
+import { Preloader } from "konsta/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ExercisePickerSheet } from "@/components/workout/exercise-picker-sheet";
 import { SetRow } from "@/components/workout/set-row";
 import { FitButton } from "@/components/ui/fit-button";
@@ -23,16 +23,14 @@ export function WorkoutEditor({ date }: WorkoutEditorProps) {
   const calcTotalVolume = useFitLogStore((state) => state.calcTotalVolume);
   const allSets = useFitLogStore((state) => state.sets);
 
-  const [sessionId, setSessionId] = useState<string | null>(null);
   const [pickerOpen, setPickerOpen] = useState(false);
 
-  useEffect(() => {
+  const sessionId = useMemo(() => {
     if (!hydrated) {
-      return;
+      return null;
     }
-    const session = getOrCreateSession(date);
-    setSessionId(session.id);
-  }, [date, getOrCreateSession, hydrated]);
+    return getOrCreateSession(date).id;
+  }, [hydrated, date, getOrCreateSession]);
 
   const sets = useMemo(() => {
     if (!sessionId) {
@@ -78,7 +76,7 @@ export function WorkoutEditor({ date }: WorkoutEditorProps) {
       </header>
 
       <section
-        className="relative mx-4 mt-3 flex min-h-[38vh] flex-col justify-end overflow-hidden rounded-[var(--fit-radius-card)] bg-gradient-to-br from-fit-accent-purple/40 via-fit-bg-muted to-fit-accent-green/30 p-6"
+        className="relative mx-4 mt-3 flex min-h-[38vh] flex-col justify-end overflow-hidden rounded-[var(--fit-radius-card)] bg-gradient-to-br from-fit-accent-blue/40 via-fit-bg-muted to-fit-accent-green/30 p-6"
       >
         <div className="flex gap-2">
           <FitButton

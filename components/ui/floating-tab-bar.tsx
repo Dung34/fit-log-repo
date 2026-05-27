@@ -4,10 +4,69 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
 
+function HomeIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="24"
+      height="24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M3 11.5 12 4l9 7.5" />
+      <path d="M5.5 10.8V20h13V10.8" />
+    </svg>
+  );
+}
+
+function CalendarIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="24"
+      height="24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M8 3v3M16 3v3" />
+      <path d="M4.5 8.5h15" />
+      <path d="M6 6h12a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z" />
+      <path d="M8 12h3M8 16h3M13 12h3M13 16h3" />
+    </svg>
+  );
+}
+
+function WorkoutIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="24"
+      height="24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M7 7h10v10H7z" />
+      <path d="M4 12h3M17 12h3M12 4v3M12 17v3" />
+    </svg>
+  );
+}
+
 const TABS = [
-  { href: "/", label: "Trang chủ", icon: "⌂" },
-  { href: "/activity", label: "Hoạt động", icon: "▦" },
-  { href: "/exercises", label: "Bài tập", icon: "⚡" },
+  { href: "/", label: "Trang chủ", Icon: HomeIcon },
+  { href: "/activity", label: "Hoạt động", Icon: CalendarIcon },
+  { href: "/exercises", label: "Bài tập", Icon: WorkoutIcon },
 ] as const;
 
 export function FloatingTabBar() {
@@ -32,12 +91,12 @@ export function FloatingTabBar() {
               className={cn(
                 "flex min-h-11 min-w-[4.5rem] flex-col items-center justify-center gap-0.5 rounded-2xl px-3 py-1.5 text-xs font-medium transition",
                 active
-                  ? "bg-fit-card-dark text-white"
+                  ? "bg-fit-accent-green text-white shadow-[var(--fit-shadow-card)]"
                   : "text-fit-text-muted",
               )}
             >
-              <span className="text-lg leading-none" aria-hidden>
-                {tab.icon}
+              <span className="flex items-center justify-center leading-none">
+                <tab.Icon />
               </span>
               <span>{tab.label}</span>
             </Link>

@@ -13,13 +13,13 @@ export function DashboardPage() {
       <header className="mb-6 flex items-center justify-between gap-3">
         <div>
           <p className="fit-caption">Welcome back</p>
-          <h1 className="fit-h1">Xin chào, Bạn</h1>
+          <h1 className="fit-h1">Xin chào, Dũng</h1>
         </div>
         <div
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-fit-accent-purple/30 text-lg font-semibold text-fit-card-dark"
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-fit-accent-blue/30 text-lg font-semibold text-fit-card-dark"
           aria-hidden
         >
-          B
+          D
         </div>
       </header>
 

@@ -7,13 +7,13 @@ const TAG_STYLES: Record<
 > = {
   gym: {
     label: "Strength",
-    bg: "bg-[#A890FE33]",
-    text: "text-[#6B52D9]",
+    bg: "bg-fit-accent-blue/20",
+    text: "text-fit-accent-blue",
   },
   calisthenics: {
     label: "Muscle",
-    bg: "bg-[#FFD16633]",
-    text: "text-[#C9A020]",
+    bg: "bg-fit-accent-green/20",
+    text: "text-fit-accent-green",
   },
 };
 
