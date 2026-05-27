@@ -3,6 +3,7 @@
 import { Preloader } from "konsta/react";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
 import { ExercisePickerSheet } from "@/components/workout/exercise-picker-sheet";
 import { SetRow } from "@/components/workout/set-row";
 import { FitButton } from "@/components/ui/fit-button";
@@ -56,7 +57,7 @@ export function WorkoutEditor({ date }: WorkoutEditorProps) {
         <button
           type="button"
           onClick={() => router.push("/")}
-          className="flex min-h-11 min-w-11 items-center justify-center rounded-full bg-white/80 text-lg shadow-sm backdrop-blur"
+          className="flex min-h-11 min-w-11 items-center justify-center rounded-full bg-white/10 border border-white/10 text-white text-lg shadow-sm backdrop-blur active:scale-95 transition cursor-pointer"
           aria-label="Quay lại"
         >
           ←
@@ -68,7 +69,7 @@ export function WorkoutEditor({ date }: WorkoutEditorProps) {
         <button
           type="button"
           onClick={() => router.push("/exercises")}
-          className="flex min-h-11 min-w-11 items-center justify-center rounded-full bg-white/80 text-lg shadow-sm backdrop-blur"
+          className="flex min-h-11 min-w-11 items-center justify-center rounded-full bg-white/10 border border-white/10 text-white text-lg shadow-sm backdrop-blur active:scale-95 transition cursor-pointer"
           aria-label="Danh sách bài tập"
         >
           ⋯
@@ -80,44 +81,50 @@ export function WorkoutEditor({ date }: WorkoutEditorProps) {
       >
         <div className="flex gap-2">
           <FitButton
-            variant="outline"
-            className="flex-1 !bg-white/90"
+            variant="ghost"
+            className="flex-1 bg-white/10 border border-white/15 text-white hover:bg-white/20 active:scale-[0.98] transition backdrop-blur-sm"
             onClick={() => router.push(`/workout/${addDays(date, -1)}`)}
           >
             ← Trước
           </FitButton>
           <FitButton
-            variant="outline"
-            className="flex-1 !bg-white/90"
+            variant="ghost"
+            className="flex-1 bg-white/10 border border-white/15 text-white hover:bg-white/20 active:scale-[0.98] transition backdrop-blur-sm"
             onClick={() => router.push(`/workout/${addDays(date, 1)}`)}
           >
             Sau →
           </FitButton>
         </div>
-        <p className="mt-4 text-4xl font-bold text-fit-card-dark">
+        <p className="mt-4 text-4xl font-bold text-white font-mono-numbers">
           {totalVolume.toLocaleString("vi-VN")}
-          <span className="ml-1 text-lg font-medium text-fit-text-muted">kg</span>
+          <span className="ml-1 text-lg font-medium text-white/60">kg</span>
         </p>
-        <p className="fit-caption">Tổng volume buổi tập</p>
+        <p className="fit-caption !text-white/70">Tổng volume buổi tập</p>
       </section>
 
       <GlassPanel className="relative z-20 -mt-6 flex min-h-[52vh] flex-1 flex-col px-4 pb-6 pt-5">
         <div className="mb-4 flex items-center gap-3">
-          <div className="min-w-0 flex-1 rounded-2xl bg-fit-accent-green/25 px-4 py-3">
-            <p className="fit-caption">Volume</p>
-            <p className="text-2xl font-bold text-fit-card-dark">
-              {totalVolume.toLocaleString("vi-VN")} kg
+          <div className="min-w-0 flex-1 rounded-2xl bg-fit-accent-green/10 border border-fit-accent-green/20 px-4 py-3">
+            <p className="fit-caption !text-fit-accent-green/80 font-medium">Volume</p>
+            <p className="text-2xl font-bold text-fit-accent-green font-mono-numbers">
+              {totalVolume.toLocaleString("vi-VN")}{" "}
+              <span className="text-sm font-normal text-fit-accent-green/75">kg</span>
             </p>
           </div>
           {sessionId && (
-            <button
+            <motion.button
               type="button"
               onClick={() => setPickerOpen(true)}
-              className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-fit-card-dark text-2xl text-white shadow-lg"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.92 }}
+              className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-fit-card-dark text-2xl text-white shadow-lg cursor-pointer"
               aria-label="Thêm bài tập"
             >
               +
-            </button>
+            </motion.button>
           )}
         </div>
 

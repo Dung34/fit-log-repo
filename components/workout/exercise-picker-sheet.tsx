@@ -13,6 +13,7 @@ import {
   Sheet,
 } from "konsta/react";
 import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
 import { ExerciseFormSheet } from "@/components/exercises/exercise-form-sheet";
 import { useFitLogStore } from "@/lib/store/use-fit-log-store";
 import type { ExerciseCategory } from "@/lib/store/type";
@@ -24,6 +25,29 @@ interface ExercisePickerSheetProps {
   sessionId: string;
   onClose: () => void;
 }
+
+const listContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.04,
+    },
+  },
+} as const;
+
+const listItemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 24,
+    },
+  },
+} as const;
 
 export function ExercisePickerSheet({
   opened,
@@ -100,15 +124,22 @@ export function ExercisePickerSheet({
           {exercises.length === 0 ? (
             <ListItem title="Không có bài tập phù hợp" />
           ) : (
-            exercises.map((exercise) => (
-              <ListItem
-                key={exercise.id}
-                title={exercise.name}
-                subtitle={exercise.category === "gym" ? "Gym" : "Calisthenics"}
-                link
-                onClick={() => handleSelect(exercise.id)}
-              />
-            ))
+            <motion.div
+              variants={listContainerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {exercises.map((exercise) => (
+                <motion.div key={exercise.id} variants={listItemVariants}>
+                  <ListItem
+                    title={exercise.name}
+                    subtitle={exercise.category === "gym" ? "Gym" : "Calisthenics"}
+                    link
+                    onClick={() => handleSelect(exercise.id)}
+                  />
+                </motion.div>
+              ))}
+            </motion.div>
           )}
         </List>
         <Block className="px-4 pb-6">
