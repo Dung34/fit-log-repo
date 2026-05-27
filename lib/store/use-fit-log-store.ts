@@ -26,9 +26,14 @@ function seedExercisesIfEmpty(exercises: Exercise[]): Exercise[] {
 export const useFitLogStore = create<FitLogState>()(
   persist(
     (set, get) => ({
+      userProfile: {},
       exercises: [] as Exercise[],
       sessions: [] as WorkoutSession[],
       sets: [] as WorkoutSet[],
+
+      updateUserProfile: (profile) => {
+        set({ userProfile: { ...get().userProfile, ...profile } });
+      },
 
       addExercise: (exercise) => {
         const trimmedName = exercise.name.trim();
@@ -126,6 +131,19 @@ export const useFitLogStore = create<FitLogState>()(
         set({
           sessions: get().sessions.map((item) =>
             item.id === sessionId ? { ...item, notes } : item,
+          ),
+        });
+      },
+
+      updateSessionCalories: (sessionId, calories) => {
+        const session = get().sessions.find((item) => item.id === sessionId);
+        if (!session) {
+          throw new Error(`Session not found: ${sessionId}`);
+        }
+
+        set({
+          sessions: get().sessions.map((item) =>
+            item.id === sessionId ? { ...item, calories } : item,
           ),
         });
       },
@@ -240,6 +258,7 @@ export const useFitLogStore = create<FitLogState>()(
     {
       name: "fitlog-storage",
       partialize: (state) => ({
+        userProfile: state.userProfile,
         exercises: state.exercises,
         sessions: state.sessions,
         sets: state.sets,

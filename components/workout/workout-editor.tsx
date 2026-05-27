@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { ExercisePickerSheet } from "@/components/workout/exercise-picker-sheet";
 import { SetRow } from "@/components/workout/set-row";
+import { CalorieEstimator } from "@/components/workout/calorie-estimator";
 import { FitButton } from "@/components/ui/fit-button";
 import { GlassPanel } from "@/components/ui/glass-panel";
 import { useStoreHydrated } from "@/lib/hooks/use-store-hydrated";
@@ -160,7 +161,9 @@ export function WorkoutEditor({ date }: WorkoutEditorProps) {
           )}
         </div>
 
-        <div className="mb-4 grid grid-cols-2 gap-3">
+        {sessionId && <CalorieEstimator sessionId={sessionId} />}
+
+        <div className="my-4 grid grid-cols-2 gap-3">
           <div className="rounded-2xl bg-fit-bg-muted px-3 py-2">
             <p className="fit-caption">Sets</p>
             <p className="text-lg font-semibold">{sets.length}</p>

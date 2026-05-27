@@ -15,6 +15,12 @@ interface WorkoutSession {
   id: string;
   date: string;
   notes?: string;
+  calories?: number;
+}
+
+interface UserProfile {
+  weight?: number; // kg
+  height?: number; // cm
 }
 
 interface WorkoutSet {
@@ -30,9 +36,12 @@ interface WorkoutSet {
 }
 
 interface FitLogState {
+  userProfile: UserProfile;
   exercises: Exercise[];
   sessions: WorkoutSession[];
   sets: WorkoutSet[];
+
+  updateUserProfile: (profile: Partial<UserProfile>) => void;
 
   addExercise: (exercise: Omit<Exercise, "id" | "deletedAt">) => Exercise;
   updateExercise: (id: string, data: Partial<Exercise>) => void;
@@ -40,6 +49,7 @@ interface FitLogState {
 
   getOrCreateSession: (date: string) => WorkoutSession;
   updateSessionNotes: (sessionId: string, notes: string) => void;
+  updateSessionCalories: (sessionId: string, calories: number) => void;
 
   addSet: (sessionId: string, exerciseId: string) => WorkoutSet;
   updateSet: (
@@ -68,4 +78,5 @@ export type {
   WorkoutSession,
   WorkoutSet,
   FitLogState,
+  UserProfile,
 };
