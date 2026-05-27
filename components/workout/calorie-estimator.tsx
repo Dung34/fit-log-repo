@@ -149,7 +149,7 @@ export function CalorieEstimator({ sessionId }: CalorieEstimatorProps) {
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              className="relative w-full max-w-sm rounded-[32px] bg-white p-6 shadow-2xl overflow-hidden"
+              className="relative w-full max-w-sm rounded-[32px] bg-fit-bg border border-white/10 p-6 shadow-2xl overflow-hidden"
             >
               {/* Decorative background element */}
               <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-gradient-to-br from-fit-accent-purple/20 to-fit-accent-blue/20 blur-3xl pointer-events-none" />
@@ -159,16 +159,16 @@ export function CalorieEstimator({ sessionId }: CalorieEstimatorProps) {
                   <span className="text-2xl">🔥</span>
                 </div>
 
-                <h3 className="text-xl font-bold text-slate-900 text-center mb-2">
+                <h3 className="text-xl font-bold text-white text-center mb-2">
                   Thông tin cơ thể
                 </h3>
-                <p className="text-sm text-slate-500 text-center mb-6 px-2">
+                <p className="text-sm text-white/60 text-center mb-6 px-2">
                   Để AI có thể tính toán lượng calo đốt cháy chuẩn xác nhất, hãy cung cấp chỉ số của bạn.
                 </p>
 
                 <div className="space-y-4 mb-8">
                   <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5 ml-1">
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-1.5 ml-1">
                       Chiều cao (cm)
                     </label>
                     <input
@@ -176,11 +176,11 @@ export function CalorieEstimator({ sessionId }: CalorieEstimatorProps) {
                       placeholder="VD: 170"
                       value={height}
                       onChange={(e) => setHeight(e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3.5 text-lg font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-fit-accent-purple/50 focus:border-fit-accent-purple transition-all"
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3.5 text-lg font-medium text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-fit-accent-purple/50 focus:border-fit-accent-purple transition-all"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5 ml-1">
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-white/50 mb-1.5 ml-1">
                       Cân nặng (kg)
                     </label>
                     <input
@@ -188,7 +188,7 @@ export function CalorieEstimator({ sessionId }: CalorieEstimatorProps) {
                       placeholder="VD: 65"
                       value={weight}
                       onChange={(e) => setWeight(e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3.5 text-lg font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-fit-accent-purple/50 focus:border-fit-accent-purple transition-all"
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3.5 text-lg font-medium text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-fit-accent-purple/50 focus:border-fit-accent-purple transition-all"
                     />
                   </div>
                 </div>
@@ -197,7 +197,7 @@ export function CalorieEstimator({ sessionId }: CalorieEstimatorProps) {
                   <button
                     type="button"
                     onClick={() => setProfileModalOpen(false)}
-                    className="flex-1 rounded-2xl bg-slate-100 py-3.5 text-sm font-bold text-slate-600 hover:bg-slate-200 active:scale-95 transition-all"
+                    className="flex-1 rounded-2xl bg-white/10 py-3.5 text-sm font-bold text-white/80 hover:bg-white/20 active:scale-95 transition-all"
                   >
                     Để sau
                   </button>
