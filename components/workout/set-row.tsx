@@ -1,8 +1,9 @@
 "use client";
 
-import { Block, Button, ListInput } from "konsta/react";
+import { ListInput } from "konsta/react";
 import { useEffect, useState } from "react";
 import { DuplicateSetButton } from "@/components/workout/duplicate-set-button";
+import { FitCard } from "@/components/ui/fit-card";
 import { useFitLogStore } from "@/lib/store/use-fit-log-store";
 import type { WorkoutSet } from "@/lib/store/type";
 
@@ -53,26 +54,24 @@ export function SetRow({ set }: SetRowProps) {
   );
 
   return (
-    <Block strong inset className="!my-2">
+    <FitCard className="!p-3">
       <div className="mb-2 flex items-center justify-between gap-2">
         <div className="min-w-0 flex-1">
-          <div className="truncate font-semibold">
+          <div className="truncate font-semibold text-fit-text">
             {exercise?.name ?? "Bài tập đã xóa"}
           </div>
-          <div className="text-xs text-black/50 dark:text-white/50">
-            Set #{set.order + 1}
-          </div>
+          <div className="fit-caption">Set #{set.order + 1}</div>
         </div>
         <div className="flex shrink-0 items-center gap-1">
           <DuplicateSetButton onClick={() => duplicateSet(set.id)} />
-          <Button
-            clear
-            className="!min-h-11 !min-w-11 text-red-500"
+          <button
+            type="button"
+            className="flex min-h-11 min-w-11 items-center justify-center rounded-full text-red-500 active:bg-red-50"
             aria-label="Xóa set"
             onClick={() => deleteSet(set.id)}
           >
             ✕
-          </Button>
+          </button>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-2">
@@ -93,6 +92,6 @@ export function SetRow({ set }: SetRowProps) {
           onInput={(event) => setRepsText(event.target.value)}
         />
       </div>
-    </Block>
+    </FitCard>
   );
 }

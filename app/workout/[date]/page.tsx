@@ -1,7 +1,8 @@
 "use client";
 
-import { Block, Button, Navbar, NavbarBackLink, Page } from "konsta/react";
 import { useParams, useRouter } from "next/navigation";
+import { FitButton } from "@/components/ui/fit-button";
+import { FitCard } from "@/components/ui/fit-card";
 import { WorkoutEditor } from "@/components/workout/workout-editor";
 import { parseDate } from "@/lib/utils/date";
 
@@ -19,20 +20,16 @@ export default function WorkoutPage() {
 
   if (!date) {
     return (
-      <Page>
-        <Navbar
-          title="Lỗi"
-          left={<NavbarBackLink onClick={() => router.push("/")} />}
-        />
-        <Block strong inset>
-          <p className="text-center text-black/60 dark:text-white/60">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-fit-bg-muted px-4 pt-[max(1rem,env(safe-area-inset-top))]">
+        <FitCard className="max-w-sm text-center">
+          <p className="fit-caption">
             Ngày không hợp lệ: {rawDate || "—"}
           </p>
-          <Button large className="mt-4" onClick={() => router.push("/")}>
-            Về Dashboard
-          </Button>
-        </Block>
-      </Page>
+          <FitButton fullWidth className="mt-4" onClick={() => router.push("/")}>
+            Về trang chủ
+          </FitButton>
+        </FitCard>
+      </div>
     );
   }
 

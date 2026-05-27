@@ -1,9 +1,10 @@
 "use client";
 
-import { Block } from "konsta/react";
 import { SessionSummaryCard } from "@/components/dashboard/session-summary-card";
+import { FitCard } from "@/components/ui/fit-card";
 import { useStoreHydrated } from "@/lib/hooks/use-store-hydrated";
 import { useFitLogStore } from "@/lib/store/use-fit-log-store";
+import { getDominantCategory } from "@/lib/utils/activity";
 import { useRouter } from "next/navigation";
 
 export function SessionList() {
@@ -12,6 +13,8 @@ export function SessionList() {
   const getSessionsWithStats = useFitLogStore(
     (state) => state.getSessionsWithStats,
   );
+  const getExerciseById = useFitLogStore((state) => state.getExerciseById);
+  const sets = useFitLogStore((state) => state.sets);
   const sessionsWithStats = getSessionsWithStats();
 
   if (!hydrated) {
@@ -20,26 +23,35 @@ export function SessionList() {
 
   if (sessionsWithStats.length === 0) {
     return (
-      <Block strong inset>
-        <p className="text-center text-black/60 dark:text-white/60">
+      <FitCard>
+        <p className="fit-caption text-center">
           Chưa có buổi tập nào. Bấm &quot;Bắt đầu tập hôm nay&quot; để ghi log.
         </p>
-      </Block>
+      </FitCard>
     );
   }
 
   return (
-    <Block strong inset className="space-y-3">
+    <ul className="space-y-3">
       {sessionsWithStats.map(({ session, stats }) => (
-        <button
-          key={session.id}
-          type="button"
-          className="w-full text-left"
-          onClick={() => router.push(`/workout/${session.date}`)}
-        >
-          <SessionSummaryCard date={session.date} stats={stats} />
-        </button>
+        <li key={session.id}>
+          <button
+            type="button"
+            className="w-full text-left"
+            onClick={() => router.push(`/workout/${session.date}`)}
+          >
+            <SessionSummaryCard
+              date={session.date}
+              stats={stats}
+              category={getDominantCategory(
+                session.id,
+                sets,
+                getExerciseById,
+              )}
+            />
+          </button>
+        </li>
       ))}
-    </Block>
+    </ul>
   );
 }

@@ -1,19 +1,11 @@
 "use client";
 
-import {
-  Block,
-  BlockTitle,
-  Button,
-  List,
-  ListItem,
-  Navbar,
-  NavbarBackLink,
-  Page,
-  Preloader,
-} from "konsta/react";
-import { useRouter } from "next/navigation";
+import { Dialog, DialogButton, List, ListItem, Preloader } from "konsta/react";
 import { useMemo, useState } from "react";
 import { ExerciseFormSheet } from "@/components/exercises/exercise-form-sheet";
+import { CategoryTag } from "@/components/ui/category-tag";
+import { FitButton } from "@/components/ui/fit-button";
+import { FitCard } from "@/components/ui/fit-card";
 import { useStoreHydrated } from "@/lib/hooks/use-store-hydrated";
 import { useFitLogStore } from "@/lib/store/use-fit-log-store";
 import type { Exercise, ExerciseCategory } from "@/lib/store/type";
@@ -32,7 +24,6 @@ function groupByCategory(exercises: Exercise[]) {
 }
 
 export function ExercisesPage() {
-  const router = useRouter();
   const hydrated = useStoreHydrated();
   const getActiveExercises = useFitLogStore((state) => state.getActiveExercises);
   const deleteExercise = useFitLogStore((state) => state.deleteExercise);
@@ -40,6 +31,7 @@ export function ExercisesPage() {
 
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<Exercise | undefined>();
+  const [deleteTarget, setDeleteTarget] = useState<Exercise | null>(null);
 
   const groups = useMemo(
     () => groupByCategory(getActiveExercises()),
@@ -56,47 +48,46 @@ export function ExercisesPage() {
     setFormOpen(true);
   };
 
-  const handleDelete = (exercise: Exercise) => {
-    const confirmed = window.confirm(`Ẩn bài tập "${exercise.name}" khỏi danh sách?`);
-    if (!confirmed) {
+  const confirmDelete = () => {
+    if (!deleteTarget) {
       return;
     }
     try {
-      deleteExercise(exercise.id);
+      deleteExercise(deleteTarget.id);
+      setDeleteTarget(null);
     } catch (error) {
       window.alert(error instanceof Error ? error.message : "Không thể xóa");
     }
   };
 
   return (
-    <Page>
-      <Navbar
-        title="Bài tập"
-        left={<NavbarBackLink onClick={() => router.push("/")} />}
-      />
+    <div className="min-h-full bg-fit-bg-muted px-4 pt-[max(1rem,env(safe-area-inset-top))] pb-4">
+      <header className="mb-6">
+        <h1 className="fit-h1">Bài tập</h1>
+        <p className="fit-caption mt-1">Danh mục Gym & Calisthenics</p>
+      </header>
 
-      <Block strong inset>
-        <Button large onClick={openCreate}>
-          + Thêm bài tập custom
-        </Button>
-      </Block>
+      <FitButton fullWidth className="mb-6" onClick={openCreate}>
+        + Thêm bài tập custom
+      </FitButton>
 
       {!hydrated ? (
-        <Block strong inset className="flex justify-center py-12">
+        <div className="flex justify-center py-12">
           <Preloader />
-        </Block>
+        </div>
       ) : (
         groups.map(({ category, label, items }) => (
-          <div key={category}>
-            <BlockTitle>{label}</BlockTitle>
+          <section key={category} className="mb-6">
+            <div className="mb-2 flex items-center gap-2">
+              <h2 className="fit-h2">{label}</h2>
+              <CategoryTag category={category} />
+            </div>
             {items.length === 0 ? (
-              <Block strong inset>
-                <p className="text-sm text-black/60 dark:text-white/60">
-                  Chưa có bài tập trong nhóm này.
-                </p>
-              </Block>
+              <FitCard>
+                <p className="fit-caption">Chưa có bài tập trong nhóm này.</p>
+              </FitCard>
             ) : (
-              <List strongIos outlineIos>
+              <List strongIos outlineIos className="!m-0 rounded-[var(--fit-radius-card)] overflow-hidden shadow-[var(--fit-shadow-card)]">
                 {items.map((exercise) => (
                   <ListItem
                     key={exercise.id}
@@ -104,31 +95,29 @@ export function ExercisesPage() {
                     subtitle={exercise.isCustom ? "Custom" : "Mặc định"}
                     after={
                       <div className="flex items-center gap-1">
-                        <Button
-                          clear
-                          small
-                          className="!min-h-11 !min-w-11"
+                        <button
+                          type="button"
+                          className="flex min-h-11 min-w-11 items-center justify-center rounded-full active:bg-black/5"
                           aria-label={`Sửa ${exercise.name}`}
                           onClick={() => openEdit(exercise)}
                         >
                           ✎
-                        </Button>
-                        <Button
-                          clear
-                          small
-                          className="!min-h-11 !min-w-11 text-red-500"
+                        </button>
+                        <button
+                          type="button"
+                          className="flex min-h-11 min-w-11 items-center justify-center rounded-full text-red-500 active:bg-red-50"
                           aria-label={`Xóa ${exercise.name}`}
-                          onClick={() => handleDelete(exercise)}
+                          onClick={() => setDeleteTarget(exercise)}
                         >
                           ✕
-                        </Button>
+                        </button>
                       </div>
                     }
                   />
                 ))}
               </List>
             )}
-          </div>
+          </section>
         ))
       )}
 
@@ -138,6 +127,27 @@ export function ExercisesPage() {
         onClose={() => setFormOpen(false)}
         onSaved={() => setFormOpen(false)}
       />
-    </Page>
+
+      <Dialog
+        opened={Boolean(deleteTarget)}
+        onBackdropClick={() => setDeleteTarget(null)}
+        title="Ẩn bài tập?"
+        content={
+          deleteTarget
+            ? `Ẩn "${deleteTarget.name}" khỏi danh sách?`
+            : ""
+        }
+        buttons={
+          <>
+            <DialogButton onClick={() => setDeleteTarget(null)}>
+              Hủy
+            </DialogButton>
+            <DialogButton strong onClick={confirmDelete}>
+              Ẩn
+            </DialogButton>
+          </>
+        }
+      />
+    </div>
   );
 }
