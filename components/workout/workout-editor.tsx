@@ -99,7 +99,7 @@ export function WorkoutEditor({ date }: WorkoutEditorProps) {
           {totalVolume.toLocaleString("vi-VN")}
           <span className="ml-1 text-lg font-medium text-white/60">kg</span>
         </p>
-        <p className="fit-caption !text-white/70">Tổng volume buổi tập</p>
+        <p className="fit-caption text-white/70">Tổng volume buổi tập</p>
       </section>
 
       <GlassPanel className="relative z-20 -mt-6 flex min-h-[52vh] flex-1 flex-col px-4 pb-6 pt-5">
